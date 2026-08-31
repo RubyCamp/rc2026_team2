@@ -1,6 +1,6 @@
 class TutorialsController < ApplicationController
   def index
-    @profiles = TutorialProfile.all
+    @profiles = TutorialProfile.published.sort_by(&:name)
   end
 
   def debug
