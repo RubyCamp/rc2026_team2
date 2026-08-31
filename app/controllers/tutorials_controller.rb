@@ -1,9 +1,19 @@
 class TutorialsController < ApplicationController
   def index
-    @profiles = TutorialProfile.published.sort_by(&:name)
+    @profiles = TutorialProfile.published
     if params[:category].present?
-      @profiles = @profiles.select { |profile| profile.category == params[:category] }
+      @profiles = @profiles.select do |profile|
+        profile.category == params[:category]
+      end
     end
+
+    if params[:q].present?
+      @profiles = @profiles.select do |profile|
+        profile.matches?(params[:q])
+      end
+    end
+    
+    @profiles = @profiles.sort_by(&:name)
   end
 
   def debug

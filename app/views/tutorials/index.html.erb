@@ -14,6 +14,11 @@
   </p>
 </div>
 
+<%= form_with url: tutorial_path, method: :get do |form| %>
+  <%= form.search_field :q, value: params[:q] %>
+  <%= form.submit "検索" %>
+<% end %>
+
 <div class="d-flex align-items-center gap-2 mb-4">
   <span class="fw-semibold">表示件数</span>
   <span class="badge rounded-pill text-bg-primary">
