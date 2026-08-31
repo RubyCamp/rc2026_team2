@@ -10,7 +10,7 @@
   </h1>
 
   <p class="page-lead text-body-secondary">
-    参加者のプロフィールを一覧で表示しています。
+    好きなことやひとことから、メンバーについて知ってみましょう。
   </p>
 </div>
 
@@ -56,7 +56,10 @@
               <dt>ID</dt>
               <dd><%= profile.id %></dd>
             </div>
-
+            <div>
+              <dt>好きなもの</dt>
+              <dd><%= profile.favorite %></dd>
+            </div>
             <div>
               <dt>ひとこと</dt>
               <dd><%= profile.message %></dd>
