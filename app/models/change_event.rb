@@ -162,9 +162,9 @@ class ChangeEvent < ApplicationRecord
   end
 
     def self.debug_enabled?
-    Rails.env.development? &&
+      Rails.env.development? &&
       ENV["ENABLE_CHANGE_EVENT_DEBUG"] == "true"
-  end
+    end
 
   def self.ensure_debug_enabled!
     return if debug_enabled?
