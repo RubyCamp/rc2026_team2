@@ -31,5 +31,4 @@ Rails.application.routes.draw do
                   only: %i[index create destroy]
       end
     end
-
 end

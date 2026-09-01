@@ -12,7 +12,6 @@ class TutorialsController < ApplicationController
         profile.matches?(params[:q])
       end
     end
-    
     @profiles = @profiles.sort_by(&:name)
   end
 
