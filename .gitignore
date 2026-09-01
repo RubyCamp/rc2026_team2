@@ -4,6 +4,7 @@
 # Environment variables
 /.env
 /.env.*
+/.devcontainer/.env
 !/.env.example
 
 # Logs and temporary files
