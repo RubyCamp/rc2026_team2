@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "tutorial", to: "tutorials#index", as: :tutorial
   get "tutorial/debug", to: "tutorials#debug", as: :tutorial_debug
   get "/tutorial/profiles/:id", to: "tutorials#show", as: :tutorial_profile
+  get "change_events", to: "debug/change_events#index", as: :change_events
 
     # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
     # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -30,4 +31,5 @@ Rails.application.routes.draw do
                   only: %i[index create destroy]
       end
     end
+
 end
