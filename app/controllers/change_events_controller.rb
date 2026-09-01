@@ -2,7 +2,7 @@ class ChangeEventsController < ApplicationController
   before_action :ensure_debug_enabled
 
   def index
-    @change_events = ChangeEvent.source_debug.recent.limit(20)
+    @change_events = ChangeEvent.source_debug.recent
   end
 
   def create
