@@ -58,7 +58,7 @@
                 スタッフ割り当て
               <% end %>
             </span>
-            <span class="badge rounded-pill text-bg-primary">
+            <span class="badge rounded-pill text-bg-warning"><!-- action_typeのデザイン -->
               <% case change_event.action_type %>
               <% when "created" %>
                 登録
@@ -81,25 +81,30 @@
             </small>
           </span>
 
-          <%= button_to "この記録を削除",
-                        debug_change_event_path(change_event),
-                        method: :delete,
-                        class: "btn btn-outline-danger btn-sm",
-                        form: {
-                          data: {
-                            turbo_confirm:
-                              "このデバッグ記録を削除しますか？"
-                          }
-                        } %>
+          <span class="d-inline-flex justify-content-center align-items-center border border-2 border-danger text-danger rounded-3 fw-bold" style="width: 3rem; height: 3rem;">
+            未読
+          </span>
+
+          <span><%= button_to "既読にする",
+                          change_event_path(change_event),
+                          method: :patch,
+                          form: {
+                            data: {
+                              turbo_confirm:
+                              "このデバッグ記録を確認済みにします"
+                            }
+                          },
+                          class: "btn btn-success btn-lg" %>　<!-- ボタンのデザイン -->
+          </span>
         </li>
       <% end %>
     </ul>
   </div>
 </section>
 <br>
-<section class="card shadow-sm">
-  <div class="container-fluid">
-    <table class="table table-bordered">
+<section>
+  <div>
+    <table>
       <tr>
         <th>対象</th>
         <th>番号</th>
@@ -118,25 +123,19 @@
             <td><%= change_event.target_id %></td>
             <td><%= change_event.action_type %></td>
             <td><%= change_event.summary %></td>
-            <td><%= change_event.occurred_at.strftime("%H:%M %Y年%m月%d日") %></td>
+            <td><%= change_event.occurred_at %></td>
             <td style="text-align: center">
-              <%= status_label = if change_event.review_status.to_s == "pending"
-                                          "❎️"
-                                        elsif change_event.review_status.to_s == "reviewed"
-                                          "☑️"
-                                        else
-                                          "❓️"
-                                        end %>
+              <%= change_event.review_status.to_s %>
             </td>
             <td>
               <% if change_event.reviewed_at.present? %>
-                <%= change_event.reviewed_at.strftime("%H:%M %Y年%m月%d日") %>
+                <%= change_event.reviewed_at %>
               <% else %>
                 未確認
               <% end %>
             </td>
             <td><%= change_event.source %></td>
-            <td class="text-nowrap"><%= button_to "確認済み",
+            <td><%= button_to "確認済み",
                             change_event_path(change_event),
                             method: :patch,
                             form: {
