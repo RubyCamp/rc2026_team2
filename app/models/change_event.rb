@@ -136,12 +136,17 @@ class ChangeEvent < ApplicationRecord
   end
   def self.mark_reviewed!(id:)
     find(id).tap do |change_event|
-      next if change_event.review_status_reviewed?
-
-      change_event.update!(
-        review_status: :reviewed,
-        reviewed_at: Time.current
-      )
+      if change_event.review_status == "pending"
+        change_event.update!(
+          review_status: :reviewed,
+          reviewed_at: Time.current
+        )
+      elsif change_event.review_status == "reviewed"
+        change_event.update!(
+          review_status: :pending,
+          reviewed_at: nil
+        )
+      end
     end
   end
 
