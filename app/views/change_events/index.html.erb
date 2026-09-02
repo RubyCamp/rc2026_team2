@@ -1,45 +1,94 @@
 <% content_for :title, "変更一覧表示" %>
-<h5>
-  <div class="d-flex align-items-center gap-2 mb-4">
+<% current_review_status_label = if params[:review_status].blank?
+                                      "全て"
+                                    elsif params[:review_status].to_s == "pending"
+                                      "未確認"
+                                    else
+                                      "確認済"
+                                    end %>
 
-  <span class="fw-semibold">未確認件数</span>
-  <span class="badge rounded-pill text-bg-primary">
-    <%= aa=  ChangeEvent.pending_count %>件
-  </span>
+<section class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="h4 card-title">
+      変更記録
+    </h2>
+
+    <h5>
+      <%= form_with url: change_events_path, method: :get do |form| %>
+        <%= form.select :review_status, [["未確認", :pending], ["確認済", :reviewed]], include_blank: "全て" %>
+        <%= form.submit "検索" %>
+      <% end %>
+    </h5>
+
+    <h5>
+      <div class="d-flex align-items-center gap-2 mb-4">
+
+        <span class="fw-semibold">未確認件数</span>
+        <span class="badge rounded-pill text-bg-primary">
+          <%= aa=  ChangeEvent.pending_count %>件
+        </span>
+      </div>
+    </h5>
+
+    <p class="mb-3 small text-body-secondary">
+      表示中: <strong><%= current_review_status_label %></strong>
+    </p>
+    <hr>
+
+    <table>
+      <tr>
+        <th>対象</th>
+        <th>番号</th>
+        <th>種類</th>
+        <th>内容</th>
+        <th>日時</th>
+        <th>確認状態</th>
+        <th>確認日時</th>
+        <th>デバッグ</th>
+        <th>確認済み</th>
+      </tr>
+      <% if @change_events.any? %>
+        <% @change_events.each do |change_event| %>
+          <tr>
+            <td><%= change_event.target_type %></td>
+            <td><%= change_event.target_id %></td>
+            <td><%= change_event.action_type %></td>
+            <td><%= change_event.summary %></td>
+            <td><%= change_event.occurred_at.strftime("%H:%M %Y年%m月%d日") %></td>
+            <td style="text-align: center">
+              <%= status_label = if change_event.review_status.to_s == "pending"
+                                          "❎️"
+                                        elsif change_event.review_status.to_s == "reviewed"
+                                          "☑️"
+                                        else
+                                          "❓️"
+                                        end %>
+            </td>
+            <td>
+              <% if change_event.reviewed_at.present? %>
+                <%= change_event.reviewed_at.strftime("%H:%M %Y年%m月%d日") %>
+              <% else %>
+                未確認
+              <% end %>
+            </td>
+            <td><%= change_event.source %></td>
+            <td><%= button_to "確認済み",
+                            change_event_path(change_event),
+                            method: :patch,
+                            form: {
+                              data: {
+                                turbo_confirm:
+                                "このデバッグ記録を確認済みにします"
+                              }
+                            } %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <p class="mb-0 text-body-secondary">
+          該当する変更記録はありません。
+        </p>
+      <% end %>
+    </table>
   </div>
-</h5>
-<table>
-  <tr>
-    <th>対象</th>
-    <th>番号</th>
-    <th>種類</th>
-    <th>内容</th>
-    <th>日時</th>
-    <th>確認状態</th>
-    <th>確認日時</th>
-    <th>デバッグ</th>
-    <th>確認済み</th>
-  </tr>
-  <% @change_events.each do |change_event| %>
-  <tr>
-    <td><%= change_event.target_type %></td>
-    <td><%= change_event.target_id %></td>
-    <td><%= change_event.action_type %></td>
-    <td><%= change_event.summary %></td>
-    <td><%= change_event.occurred_at %></td>
-    <td><%= change_event.review_status %></td>
-    <td><%= change_event.reviewed_at %></td>
-    <td><%= change_event.source %></td>
-    <td><%= button_to "確認済み",
-                      change_event_path(change_event),
-                      method: :patch,
-                      form: {
-                        data: {
-                          turbo_confirm:
-                          "このデバッグ記録を確認済みにします"
-                        }
-                      } %>
-    </td>
-  </tr>
-  <% end %>
-</table>
+</section>
