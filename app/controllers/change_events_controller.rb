@@ -13,7 +13,7 @@ class ChangeEventsController < ApplicationController
 
     redirect_to(
       change_events_path,
-      notice: "表示確認用の変更記録を確認済みにしました。"
+      notice: "変更記録の確認状況を変更しました。"
     )
   end
 
