@@ -1,4 +1,45 @@
 <% content_for :title, "変更一覧表示" %>
-<% @change_events.each do |change_events| %>
-<p><%= change_events.summary %></p>
-<% end %>
+<h5>
+  <div class="d-flex align-items-center gap-2 mb-4">
+
+  <span class="fw-semibold">未確認件数</span>
+  <span class="badge rounded-pill text-bg-primary">
+    <%= aa=  ChangeEvent.pending_count %>件
+  </span>
+  </div>
+</h5>
+<table>
+  <tr>
+    <th>対象</th>
+    <th>番号</th>
+    <th>種類</th>
+    <th>内容</th>
+    <th>日時</th>
+    <th>確認状態</th>
+    <th>確認日時</th>
+    <th>デバッグ</th>
+    <th>確認済み</th>
+  </tr>
+  <% @change_events.each do |change_event| %>
+  <tr>
+    <td><%= change_event.target_type %></td>
+    <td><%= change_event.target_id %></td>
+    <td><%= change_event.action_type %></td>
+    <td><%= change_event.summary %></td>
+    <td><%= change_event.occurred_at %></td>
+    <td><%= change_event.review_status %></td>
+    <td><%= change_event.reviewed_at %></td>
+    <td><%= change_event.source %></td>
+    <td><%= button_to "確認済み",
+                      change_event_path(change_event),
+                      method: :patch,
+                      form: {
+                        data: {
+                          turbo_confirm:
+                          "このデバッグ記録を確認済みにします"
+                        }
+                      } %>
+    </td>
+  </tr>
+  <% end %>
+</table>
