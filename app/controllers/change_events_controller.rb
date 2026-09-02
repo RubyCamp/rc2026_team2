@@ -3,6 +3,9 @@ class ChangeEventsController < ApplicationController
 
   def index
     @change_events = ChangeEvent.recent
+    if params[:review_status].present?
+      @change_events = @change_events.where(review_status: params[:review_status])
+    end
   end
 
   def update
