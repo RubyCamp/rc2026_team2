@@ -31,6 +31,7 @@ ja:
       confirmed: 確定
 
     change_event:
+      all: 全て
       pending: 未確認
       reviewed: 確認済み
 
