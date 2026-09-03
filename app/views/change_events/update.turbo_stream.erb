@@ -21,17 +21,13 @@
           <br>
           <small class="text-body-secondary">
             <% if change_event.review_status == "reviewed" %>
-
               <%= l change_event.reviewed_at, format: :long %>
-
             <% else %>
-
               -------------------------
-
             <% end %>
           </small>
         </span>
-        <span>
+        <span class="flex-grow-1 text-start">
           <span class="badge rounded-pill text-bg-danger">
             <% case change_event.target_type %>
               <% when "work_request" %>
