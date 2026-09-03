@@ -1,3 +1,5 @@
+<% change_event = ChangeEvent.find(params[:id]) %>
+
 <%= turbo_stream.replace "change_event_#{change_event.id}" do %>
     <div id="change_event_<%= change_event.id %>">
       <li class="list-group-item px-0
@@ -91,7 +93,7 @@
                   "この変更記録を未読にします"
                 }
               },
-              class: "btn btn-danger btn-lg"
+              class: "btn btn-light btn-lg"
           %>
         <% end %>
       </li>

@@ -5,7 +5,7 @@
                                       "未確認"
                                     else
                                       "確認済"
-                                    end %>
+                                end %>
 
 <section class="card shadow-sm">
   <div class="card-body">
@@ -63,13 +63,9 @@
             <br>
             <small class="text-body-secondary">
               <% if change_event.review_status == "reviewed" %>
-
                 <%= l change_event.reviewed_at, format: :long %>
-
               <% else %>
-
                 -------------------------
-
               <% end %>
             </small>
           </span>
@@ -135,7 +131,7 @@
                     "この変更記録を未読にします"
                   }
                 },
-                class: "btn btn-danger btn-lg"
+                class: "btn btn-light btn-lg"
             %>
           <% end %>
         </li>
