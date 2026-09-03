@@ -55,7 +55,7 @@
                   既読
                 </span>
               <% else %>
-                <span class="d-inline-flex justify-content-center align-items-center border border-2 border-danger text-danger rounded-3 fw-bold" style="width: 3rem; height: 3rem;">
+                <span class="d-inline-flex justify-content-center align-items-center border text-bg-danger rounded-3 fw-bold" style="width: 3rem; height: 3rem;">
                   未読
                 </span>
               <% end %>
@@ -70,7 +70,7 @@
             </small>
           </span>
           <span class="flex-grow-1 text-start">
-            <span class="badge rounded-pill text-bg-danger">
+            <span class="badge rounded-pill border border-warning text-warning">
               <% case change_event.target_type %>
                 <% when "work_request" %>
                   勤務依頼
@@ -80,7 +80,7 @@
                   スタッフ割り当て
               <% end %>
             </span>
-            <span class="badge rounded-pill text-bg-warning">
+            <span class="badge rounded-pill border border-info text-info">
               <% case change_event.action_type %>
                 <% when "created" %>
                   登録
@@ -95,7 +95,7 @@
               <% end %>
             </span>
             <br>
-            <span class="badge rounded-pill text-bg-dark">
+            <span class="badge rounded-pill border border-dark text-dark">
               <% if change_event.source == "seed" %>
                 <%= change_event.target_id %>
               <% elsif change_event.source == "debug" %>
