@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   get "tutorial", to: "tutorials#index", as: :tutorial
   get "tutorial/debug", to: "tutorials#debug", as: :tutorial_debug
+  get "/tutorial/profiles/:id", to: "tutorials#show", as: :tutorial_profile
+  # get "change_events", to: "change_events#index", as: :change_events
+  resources :change_events, only: %i[index update]
 
     # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
     # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
@@ -26,7 +29,7 @@ Rails.application.routes.draw do
     ENV["ENABLE_CHANGE_EVENT_DEBUG"] == "true"
       namespace :debug do
         resources :change_events,
-                  only: %i[index create destroy]
+                  only: %i[index create destroy update]
       end
     end
 end

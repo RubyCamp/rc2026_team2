@@ -1,0 +1,100 @@
+<% change_event = ChangeEvent.find(params[:id]) %>
+
+<%= turbo_stream.replace "change_event_#{change_event.id}" do %>
+  <div id="change_event_<%= change_event.id %>">
+          <li class="list-group-item px-0
+          d-flex flex-column flex-md-row
+          justify-content-between
+          align-items-md-center gap-3">
+            <span>
+              <strong>
+                <% if change_event.review_status == "reviewed" %>
+                  <span class="d-inline-flex justify-content-center align-items-center border border-2 border-success text-success rounded-3 fw-bold" style="width: 3rem; height: 3rem;">
+                    既読
+                  </span>
+                <% else %>
+                  <span class="d-inline-flex justify-content-center align-items-center border text-bg-danger rounded-3 fw-bold" style="width: 3rem; height: 3rem;">
+                    未読
+                  </span>
+                <% end %>
+              </strong>
+              <br>
+              <small class="text-body-secondary">
+                <% if change_event.review_status == "reviewed" %>
+                  <%= l change_event.reviewed_at, format: :long %>
+                <% else %>
+                  -------------------------
+                <% end %>
+              </small>
+            </span>
+            <span class="flex-grow-1 text-start">
+              <span class="badge rounded-pill border border-warning text-warning">
+                <% case change_event.target_type %>
+                  <% when "work_request" %>
+                    勤務依頼
+                  <% when "availability" %>
+                    勤務可否
+                  <% when "assignment" %>
+                    スタッフ割り当て
+                <% end %>
+              </span>
+              <span class="badge rounded-pill border border-info text-info">
+                <% case change_event.action_type %>
+                  <% when "created" %>
+                    登録
+                  <% when "updated" %>
+                    更新
+                  <% when "assigned" %>
+                    割当
+                  <% when "unassigned" %>
+                    割当解除
+                  <% when "confirmed" %>
+                    確定
+                <% end %>
+              </span>
+              <br>
+              <span class="badge rounded-pill border border-dark text-dark">
+                <% if change_event.source == "seed" %>
+                  <%= change_event.target_id %>
+                <% elsif change_event.source == "debug" %>
+                  D
+                <% end %>
+              </span>
+              <strong><%= change_event.summary %></strong>
+              <br>
+
+              <small class="text-body-secondary">
+                <%= l change_event.occurred_at, format: :long %>
+              </small>
+            </span>
+            <% if change_event.review_status == "pending" %>
+              <%= button_to "既読にする",
+                change_event_path(change_event),
+                method: :patch,
+                  form: {
+                    data: {
+                      turbo_confirm:
+                      "この変更記録を既読にします"
+                    }
+                  },
+                  class: "btn btn-success btn-lg"
+              %>
+            <% else %>
+              <%= button_to "未読にする",
+                change_event_path(change_event),
+                method: :patch,
+                  form: {
+                    data: {
+                      turbo_confirm:
+                      "この変更記録を未読にします"
+                    }
+                  },
+                  class: "btn btn-light btn-lg"
+              %>
+            <% end %>
+          </li>
+    </div>
+<% end %>
+
+<%# 通知メッセージ（flash）を表示する領域がHTML側にあれば以下も追加 %>
+<%= turbo_stream.update "notice", "変更記録の確認状況を変更しました。" %>

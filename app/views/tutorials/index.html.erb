@@ -10,9 +10,14 @@
   </h1>
 
   <p class="page-lead text-body-secondary">
-    参加者のプロフィールを一覧で表示しています。
+    好きなことやひとことから、メンバーについて知ってみましょう。
   </p>
 </div>
+
+<%= form_with url: tutorial_path, method: :get do |form| %>
+  <%= form.search_field :q, value: params[:q] %>
+  <%= form.submit "検索" %>
+<% end %>
 
 <div class="d-flex align-items-center gap-2 mb-4">
   <span class="fw-semibold">表示件数</span>
@@ -56,11 +61,15 @@
               <dt>ID</dt>
               <dd><%= profile.id %></dd>
             </div>
-
+            <div>
+              <dt>好きなもの</dt>
+              <dd><%= profile.favorite %></dd>
+            </div>
             <div>
               <dt>ひとこと</dt>
               <dd><%= profile.message %></dd>
             </div>
+            <%= link_to "詳細を見る", tutorial_profile_path(profile.id) %>
           </dl>
         </div>
       </article>
