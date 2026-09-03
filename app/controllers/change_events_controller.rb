@@ -11,10 +11,10 @@ class ChangeEventsController < ApplicationController
   def update
     ChangeEvent.mark_reviewed!(id: params[:id])
 
-    redirect_to(
-      change_events_path,
-      notice: "変更記録の確認状況を変更しました。"
-    )
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to change_events_path, notice: "変更記録の確認状況を変更しました。" }
+      end
   end
 
   private

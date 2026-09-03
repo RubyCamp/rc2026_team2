@@ -43,6 +43,7 @@
     </h2>
     <ul class="list-group list-group-flush">
       <% @change_events.each do |change_event| %>
+        <div id="change_event_<%= change_event.id %>">
         <li class="list-group-item px-0
         d-flex flex-column flex-md-row
         justify-content-between
@@ -138,6 +139,7 @@
             %>
           <% end %>
         </li>
+        </div>
       <% end %>
     </ul>
   </div>
